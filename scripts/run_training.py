@@ -1,7 +1,4 @@
 
-"""
-Script to train PCA model only
-"""
 
 import sys
 import os
@@ -13,7 +10,6 @@ import pickle
 from config import settings
 
 def train_model():
-    """Train and save PCA model"""
     print("Training PCA Face Model")
     print("=" * 50)
     
@@ -30,7 +26,6 @@ def train_model():
         print("No images loaded. Exiting.")
         return
     
-    # Train PCA model
     pca_model = PCAFaceModel(
         variance_threshold=settings.PCA_VARIANCE_THRESHOLD,
         min_components=settings.MIN_COMPONENTS,
@@ -38,7 +33,7 @@ def train_model():
     )
     pca_model.train(images)
     
-    # Save model
+    # Saving model
     model_dir = os.path.join(settings.BASE_DIR, "models")
     os.makedirs(model_dir, exist_ok=True)
     
