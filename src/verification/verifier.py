@@ -1,13 +1,10 @@
-"""
-Face verification module
-"""
+
 
 import os
 import numpy as np
 from .threshold import ThresholdCalculator
 
 class FaceVerifier:
-    """Verifies faces against trained model"""
     
     def __init__(self, pca_model, train_images, train_names):
         self.pca_model = pca_model
@@ -16,18 +13,15 @@ class FaceVerifier:
         self.threshold = None
         self.threshold_calculator = ThresholdCalculator()
         
-        # Project training images
         self.train_projections = self.pca_model.project(train_images)
         
     def compute_threshold(self):
-        """Compute verification threshold from training data"""
         self.threshold = self.threshold_calculator.compute_adaptive_threshold(
             self.train_projections
         )
         return self.threshold
     
     def verify_image(self, image_path):
-        """Verify a single image"""
         from ..preprocessing.image_loader import ImageLoader
         
         # Load and preprocess image
@@ -37,7 +31,6 @@ class FaceVerifier:
         if img_vector is None:
             raise ValueError(f"Failed to load image: {image_path}")
         
-        # Project onto PCA space
         test_projection = self.pca_model.project(img_vector.reshape(1, -1))[0]
         
         # Compute distances to training set
